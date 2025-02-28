@@ -180,6 +180,10 @@ const MainContent = () => {
 		series: '',
 		mileage_from: '',
 		mileage_to: '',
+		price_from: '',
+		price_to: '',
+		year_from: '',
+		year_to: '',
 	})
 
 	const [models, setModels] = useState([])
@@ -226,7 +230,9 @@ const MainContent = () => {
 		if (selectedManufacturer) {
 			try {
 				const response = await axios.get(
-					`https://corsproxy.io/?key=28174bc7&url=https://4229661-cc14805.twc1.net/filter?manufacturer=${selectedManufacturer}`,
+					`https://corsproxy.io/${encodeURIComponent(
+						`https://4229661-cc14805.twc1.net/filter?manufacturer=${selectedManufacturer}`,
+					)}`,
 				)
 
 				if (response.data && response.data.models) {
@@ -256,10 +262,10 @@ const MainContent = () => {
 		if (formData.manufacturer && selectedModel) {
 			try {
 				const response = await axios.get(
-					`https://api.codetabs.com/v1/proxy?quest=https://4229661-cc14805.twc1.net/filter?manufacturer=${formData.manufacturer}&model=${selectedModel}`,
+					`https://corsproxy.io/${encodeURIComponent(
+						`https://4229661-cc14805.twc1.net/filter?manufacturer=${formData.manufacturer}&model=${selectedModel}`,
+					)}`,
 				)
-
-				console.log(response.data)
 
 				if (response.data && response.data.grades) {
 					const seriesData = response.data.grades.map((grade) => ({
@@ -282,15 +288,14 @@ const MainContent = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		alert('Форма отправлена!')
+
+		console.log(formData)
 	}
 
-	console.log(series)
-
 	return (
-		<main className='bg-white min-h-screen  items-center p-4'>
+		<main className='bg-white min-h-screen mx-auto w-full p-4'>
 			<form
-				className='bg-white shadow-md rounded-lg p-6 w-full max-w-3xl space-y-4'
+				className='bg-white shadow-md rounded-lg p-6 w-full max-w-3xl space-y-4 mx-auto'
 				onSubmit={handleSubmit}
 			>
 				<h2 className='text-2xl font-bold text-[#F04A23]'>Подбор авто</h2>
@@ -495,7 +500,7 @@ const MainContent = () => {
 
 				<button
 					type='submit'
-					className='bg-[#F04A23] text-white py-2 px-6 rounded-full shadow-md hover:bg-[#d93e1c] transition duration-300'
+					className='bg-[#F04A23] text-white py-2 px-6 rounded-sm shadow-md hover:bg-[#d93e1c] transition duration-300 mx-auto block mt-10 w-full cursor-pointer'
 				>
 					Сохранить
 				</button>
